@@ -1,0 +1,2 @@
+google.com, pub-2271816559146512, DIRECT, f08c47fec0942fa0
+inmobi.com, 3440ff5074de401db9aaa438ba09c925, DIRECT, 83e75a7ae333ca9d
