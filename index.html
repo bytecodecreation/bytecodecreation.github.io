@@ -3,161 +3,546 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bytecode Creations - Games, Apps, and Web Development</title>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <title>Bytecode Creations - Premium Games & Utility Apps</title>
+    <meta name="description" content="Bytecode Creations is a mobile app development studio specializing in high-performance utility apps, productivity widgets, educational tools, and engaging lifestyle applications.">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --bg-dark: #0f172a;
-            --bg-card: #1e293b;
-            --accent: #6366f1;
-            --accent-hover: #4f46e5;
-            --text-main: #f8fafc;
-            --text-muted: #94a3b8;
+            --bg-light: #ffffff;
+            --bg-section: #f8fafc;
+            --bg-nav: rgba(255, 255, 255, 0.75);
+            --bg-card: #ffffff;
+            --border-color: rgba(15, 23, 42, 0.05);
+            --accent-primary: #4f46e5;
+            --accent-secondary: #0ea5e9;
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+            --gradient-accent: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.04);
+            --shadow-md: 0 4px 20px -2px rgba(15, 23, 42, 0.05), 0 2px 6px -1px rgba(99, 102, 241, 0.02);
+            --shadow-lg: 0 20px 25px -5px rgba(15, 23, 42, 0.03), 0 10px 10px -5px rgba(99, 102, 241, 0.02);
         }
+
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
         }
+
         body {
-            font-family: 'Outfit', sans-serif;
-            background-color: var(--bg-dark);
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--bg-light);
             color: var(--text-main);
+            overflow-x: hidden;
             line-height: 1.6;
-            padding: 2rem 1rem;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
         }
-        .container {
+
+        /* Ambient Background Glows */
+        .ambient-glow {
+            position: absolute;
+            width: 500px;
+            height: 500px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(99, 102, 241, 0.04) 0%, rgba(255, 255, 255, 0) 70%);
+            z-index: -1;
+            filter: blur(50px);
+            pointer-events: none;
+        }
+
+        .glow-1 { top: 5%; left: -200px; }
+        .glow-2 { top: 35%; right: -250px; background: radial-gradient(circle, rgba(14, 165, 233, 0.03) 0%, rgba(255, 255, 255, 0) 70%); }
+        .glow-3 { bottom: 15%; left: 10%; }
+
+        /* Typography Helper */
+        h1, h2, h3, h4, .nav-brand {
+            font-family: 'Outfit', sans-serif;
+        }
+
+        /* Navbar Styling */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
             width: 100%;
-            max-width: 800px;
-            background: linear-gradient(135deg, rgba(30, 41, 59, 0.7), rgba(15, 23, 42, 0.8));
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 24px;
-            padding: 3rem 2rem;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-            backdrop-filter: blur(10px);
-            text-align: center;
+            background-color: var(--bg-nav);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border-color);
+            z-index: 100;
+            padding: 1.25rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
         }
-        header h1 {
-            font-size: 2.5rem;
+
+        .nav-brand {
+            font-size: 1.5rem;
             font-weight: 800;
-            margin-bottom: 0.5rem;
-            background: linear-gradient(to right, #a5b4fc, #6366f1);
+            letter-spacing: -0.5px;
+            background: var(--gradient-accent);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .nav-brand i {
+            background: var(--gradient-accent);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
-        header p {
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: color 0.25s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent-primary);
+        }
+
+        /* Hero Section */
+        .hero {
+            position: relative;
+            padding: 11rem 2rem 7rem 2rem;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .hero h2 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            line-height: 1.15;
+            margin-bottom: 1.5rem;
+            letter-spacing: -1.5px;
+            color: var(--text-main);
+        }
+
+        .hero h2 span {
+            background: var(--gradient-accent);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            margin-bottom: 2.5rem;
+            max-width: 650px;
+            font-weight: 400;
+        }
+
+        .btn {
+            background: var(--gradient-accent);
+            color: white;
+            padding: 0.9rem 2.25rem;
+            border-radius: 99px;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 10px 25px rgba(79, 70, 229, 0.15);
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 30px rgba(79, 70, 229, 0.25);
+        }
+
+        /* Main Section & Apps Grid */
+        .section-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 5rem 2rem;
+        }
+
+        .section-header {
+            margin-bottom: 4rem;
+            text-align: center;
+        }
+
+        .section-header h3 {
+            font-size: 2.25rem;
+            font-weight: 800;
+            margin-bottom: 0.75rem;
+            letter-spacing: -0.75px;
+        }
+
+        .section-header p {
             color: var(--text-muted);
             font-size: 1.1rem;
-            margin-bottom: 2.5rem;
+            max-width: 600px;
+            margin: 0 auto;
         }
-        .section-title {
-            font-size: 1.4rem;
-            font-weight: 600;
-            margin-bottom: 1.5rem;
-            text-align: left;
-            border-left: 4px solid var(--accent);
-            padding-left: 10px;
-        }
+
         .apps-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1.5rem;
-            margin-bottom: 2.5rem;
+            grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+            gap: 2.5rem;
         }
-        @media (max-width: 600px) {
-            .apps-grid {
-                grid-template-columns: 1fr;
-            }
-        }
+
         .app-card {
             background-color: var(--bg-card);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            border-radius: 16px;
-            padding: 1.5rem;
-            text-align: left;
-            transition: transform 0.2s ease, border-color 0.2s ease;
+            border: 1px solid var(--border-color);
+            border-radius: 24px;
+            padding: 2.25rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            box-shadow: var(--shadow-md);
+            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.3s ease, box-shadow 0.3s ease;
         }
+
         .app-card:hover {
-            transform: translateY(-4px);
-            border-color: rgba(99, 102, 241, 0.4);
+            transform: translateY(-6px);
+            border-color: rgba(79, 70, 229, 0.15);
+            box-shadow: var(--shadow-lg), 0 12px 24px -10px rgba(79, 70, 229, 0.08);
         }
-        .app-card h3 {
-            font-size: 1.2rem;
-            margin-bottom: 0.5rem;
+
+        .app-meta {
+            display: flex;
+            align-items: center;
+            gap: 1.25rem;
+            margin-bottom: 1.5rem;
         }
-        .app-card p {
-            font-size: 0.9rem;
+
+        .app-icon {
+            width: 64px;
+            height: 64px;
+            border-radius: 16px;
+            object-fit: cover;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+            border: 1px solid rgba(15, 23, 42, 0.04);
+        }
+
+        .app-title-group h4 {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--text-main);
+            letter-spacing: -0.25px;
+        }
+
+        .app-category {
+            font-size: 0.8rem;
+            color: var(--accent-primary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 700;
+            margin-top: 3px;
+        }
+
+        .app-description {
             color: var(--text-muted);
-            margin-bottom: 1rem;
-            min-height: 40px;
+            font-size: 0.975rem;
+            margin-bottom: 2rem;
+            flex-grow: 1;
+            line-height: 1.6;
         }
-        .app-link {
-            display: inline-block;
-            color: var(--accent);
+
+        .app-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid rgba(15, 23, 42, 0.04);
+            padding-top: 1.25rem;
+        }
+
+        .play-badge {
+            background-color: #0f172a;
+            color: #ffffff;
+            padding: 8px 16px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-size: 0.825rem;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+            transition: background-color 0.2s ease, transform 0.2s ease;
+        }
+
+        .play-badge:hover {
+            background-color: #1e293b;
+            transform: translateY(-1px);
+        }
+
+        .doc-link {
+            color: var(--text-muted);
+            font-size: 0.875rem;
             text-decoration: none;
             font-weight: 600;
-            font-size: 0.9rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
             transition: color 0.2s;
         }
-        .app-link:hover {
-            color: var(--accent-hover);
+
+        .doc-link:hover {
+            color: var(--accent-primary);
         }
-        footer {
-            margin-top: 3rem;
-            border-top: 1px solid rgba(255, 255, 255, 0.08);
-            padding-top: 2rem;
+
+        /* About Section */
+        .about-section {
+            background-color: var(--bg-section);
+            border-top: 1px solid var(--border-color);
+            border-bottom: 1px solid var(--border-color);
+            padding: 7rem 2rem;
+            text-align: center;
         }
-        footer p {
-            font-size: 0.9rem;
+
+        .about-content {
+            max-width: 750px;
+            margin: 0 auto;
+        }
+
+        .about-content h3 {
+            font-size: 2.25rem;
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            letter-spacing: -0.75px;
+        }
+
+        .about-content p {
             color: var(--text-muted);
-            margin-bottom: 0.5rem;
+            font-size: 1.15rem;
+            margin-bottom: 2rem;
+            line-height: 1.7;
         }
-        footer a {
-            color: var(--accent);
+
+        /* Footer styling */
+        footer {
+            background-color: #ffffff;
+            padding: 4rem 2rem;
+            text-align: center;
+        }
+
+        footer p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            margin-bottom: 1rem;
+        }
+
+        footer p a {
+            color: var(--accent-primary);
             text-decoration: none;
-            transition: text-decoration 0.2s;
+            font-weight: 600;
         }
-        footer a:hover {
+
+        footer p a:hover {
             text-decoration: underline;
         }
-        .contact-info {
-            font-size: 0.95rem;
-            color: var(--text-main);
-            margin-top: 0.5rem;
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 1.75rem;
+            margin-top: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: var(--text-muted);
+            font-size: 0.875rem;
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.2s;
+        }
+
+        .footer-links a:hover {
+            color: var(--accent-primary);
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>Bytecode Creations</h1>
-            <p>Creating high-quality mobile applications, games, and digital experiences.</p>
-        </header>
+    <div class="ambient-glow glow-1"></div>
+    <div class="ambient-glow glow-2"></div>
+    <div class="ambient-glow glow-3"></div>
 
-        <main>
-            <h2 class="section-title">Our Apps</h2>
-            <div class="apps-grid">
-                <div class="app-card">
-                    <h3>AI Voice Generator</h3>
-                    <p>Professional Text-to-Speech (TTS) and Speech-to-Text (STT) utility app.</p>
-                    <a href="https://play.google.com/store/apps/details?id=com.bytecode.aivoicegenerator" class="app-link" target="_blank">View on Google Play &rarr;</a>
+    <nav>
+        <a href="#" class="nav-brand">
+            <i class="fa-solid fa-cubes"></i> Bytecode Creations
+        </a>
+        <ul class="nav-links">
+            <li><a href="#apps">Our Apps</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="mailto:bytecode.creation@gmail.com">Contact</a></li>
+        </ul>
+    </nav>
+
+    <header class="hero">
+        <h2>Building Premium Mobile Experiences & <span>Smart Utilities</span></h2>
+        <p>We design and construct clean, ads-optimized, and powerful Android applications that deliver exceptional value to users worldwide.</p>
+        <a href="#apps" class="btn"><i class="fa-solid fa-arrow-down"></i> Explore Our Apps</a>
+    </header>
+
+    <section id="apps" class="section-container">
+        <div class="section-header">
+            <h3>Our Published Applications</h3>
+            <p>Check out our collection of premium utilities, productivity widgets, and tools available on Google Play.</p>
+        </div>
+
+        <div class="apps-grid">
+            <!-- App 1: AI Voice Generator -->
+            <div class="app-card">
+                <div>
+                    <div class="app-meta">
+                        <img src="assets/ai-voice-generator.png" alt="AI Voice Generator Icon" class="app-icon">
+                        <div class="app-title-group">
+                            <h4>AI Voice Generator</h4>
+                            <div class="app-category">TTS & STT Utility</div>
+                        </div>
+                    </div>
+                    <p class="app-description">Convert text to hyper-realistic natural speech and transcribe spoken words to text. Features customizable voice accents, speed control, and historical session logs.</p>
                 </div>
-                <div class="app-card">
-                    <h3>Don't Touch The Purple</h3>
-                    <p>Fast-paced, challenging action game designed for mobile devices.</p>
-                    <span class="app-link" style="color: var(--text-muted);">Coming Soon</span>
+                <div class="app-footer">
+                    <a href="https://play.google.com/store/apps/details?id=com.bytecode.aivoicegenerator" class="play-badge" target="_blank">
+                        <i class="fa-brands fa-google-play"></i> Google Play
+                    </a>
+                    <a href="privacy/ai-voice-generator.html" class="doc-link">Privacy Policy <i class="fa-solid fa-chevron-right"></i></a>
                 </div>
             </div>
-        </main>
 
-        <footer>
-            <p>&copy; 2026 Bytecode Creations. All rights reserved.</p>
-            <p class="contact-info">Contact: <a href="mailto:bytecode.creation@gmail.com">bytecode.creation@gmail.com</a></p>
-        </footer>
-    </div>
+            <!-- App 2: WiFi Server Pro -->
+            <div class="app-card">
+                <div>
+                    <div class="app-meta">
+                        <img src="assets/wifi-server-pro.png" alt="WiFi Server Pro Icon" class="app-icon">
+                        <div class="app-title-group">
+                            <h4>WiFi Server Pro</h4>
+                            <div class="app-category">Productivity / Tool</div>
+                        </div>
+                    </div>
+                    <p class="app-description">Transform your mobile device into a high-speed FTP and HTTP file server. Transfer, share, and backup files wirelessly between your phone, PC, and other platforms without cables.</p>
+                </div>
+                <div class="app-footer">
+                    <a href="https://play.google.com/store/apps/details?id=com.bytecode.wifiserverpro" class="play-badge" target="_blank">
+                        <i class="fa-brands fa-google-play"></i> Google Play
+                    </a>
+                    <a href="privacy/wifi-server-pro.html" class="doc-link">Privacy Policy <i class="fa-solid fa-chevron-right"></i></a>
+                </div>
+            </div>
+
+            <!-- App 3: Instant Sticky -->
+            <div class="app-card">
+                <div>
+                    <div class="app-meta">
+                        <img src="assets/instant-sticky.png" alt="Instant Sticky Icon" class="app-icon">
+                        <div class="app-title-group">
+                            <h4>Instant Sticky</h4>
+                            <div class="app-category">Widget / Productivity</div>
+                        </div>
+                    </div>
+                    <p class="app-description">Write quick notes, checklists, and reminders and place them directly on your phone's home screen as interactive widgets. Features customizable themes, colors, and font styles.</p>
+                </div>
+                <div class="app-footer">
+                    <a href="https://play.google.com/store/apps/details?id=com.bytecode.instantsticky" class="play-badge" target="_blank">
+                        <i class="fa-brands fa-google-play"></i> Google Play
+                    </a>
+                    <a href="privacy/instant-sticky.html" class="doc-link">Privacy Policy <i class="fa-solid fa-chevron-right"></i></a>
+                </div>
+            </div>
+
+            <!-- App 4: WiFi HTTP Server -->
+            <div class="app-card">
+                <div>
+                    <div class="app-meta">
+                        <img src="assets/wifi-http-server.png" alt="WiFi HTTP Server Icon" class="app-icon">
+                        <div class="app-title-group">
+                            <h4>WiFi HTTP Server</h4>
+                            <div class="app-category">File Sharing</div>
+                        </div>
+                    </div>
+                    <p class="app-description">A lightweight version of our server tool designed for fast file sharing over local Wi-Fi. Access files in any browser with a simple link without creating user accounts.</p>
+                </div>
+                <div class="app-footer">
+                    <a href="https://play.google.com/store/apps/details?id=com.bytecode.wifihttpserverfree" class="play-badge" target="_blank">
+                        <i class="fa-brands fa-google-play"></i> Google Play
+                    </a>
+                    <a href="privacy/wifi-http-server.html" class="doc-link">Privacy Policy <i class="fa-solid fa-chevron-right"></i></a>
+                </div>
+            </div>
+
+            <!-- App 5: QR & Barcode Scanner -->
+            <div class="app-card">
+                <div>
+                    <div class="app-meta">
+                        <img src="assets/qr-barcode-scanner.png" alt="QR & Barcode Scanner Icon" class="app-icon">
+                        <div class="app-title-group">
+                            <h4>QR & Barcode Scanner</h4>
+                            <div class="app-category">Utility</div>
+                        </div>
+                    </div>
+                    <p class="app-description">Fast and lightweight QR code and barcode scanner. Instantly decodes all standard formats, and allows you to generate custom color-styled QR codes for websites, WiFi, and cards.</p>
+                </div>
+                <div class="app-footer">
+                    <a href="https://play.google.com/store/apps/details?id=com.bytecode.qrcodebarcodescanner.qrcodebarcodescanner" class="play-badge" target="_blank">
+                        <i class="fa-brands fa-google-play"></i> Google Play
+                    </a>
+                    <a href="privacy/qr-barcode-scanner.html" class="doc-link">Privacy Policy <i class="fa-solid fa-chevron-right"></i></a>
+                </div>
+            </div>
+
+            <!-- App 6: Bhagavad गीता - Shorts & Reels -->
+            <div class="app-card">
+                <div>
+                    <div class="app-meta">
+                        <img src="assets/bhagavad-gita.png" alt="Bhagavad Gita Icon" class="app-icon">
+                        <div class="app-title-group">
+                            <h4>Bhagavad गीता</h4>
+                            <div class="app-category">Education / Lifestyle</div>
+                        </div>
+                    </div>
+                    <p class="app-description">Explore the spiritual wisdom of Bhagavad Gita through bitesize, modern shorts and audio reels. Features multi-lingual translations and audio playback options.</p>
+                </div>
+                <div class="app-footer">
+                    <a href="https://play.google.com/store/apps/details?id=com.bytecode.bhagavadgita" class="play-badge" target="_blank">
+                        <i class="fa-brands fa-google-play"></i> Google Play
+                    </a>
+                    <a href="privacy/bhagavad-gita.html" class="doc-link">Privacy Policy <i class="fa-solid fa-chevron-right"></i></a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="about" class="about-section">
+        <div class="about-content">
+            <h3>About Bytecode Creations</h3>
+            <p>We are a dedicated app design and engineering studio focused on creating lightweight, secure, and user-centric applications. Our products prioritize performance, responsive UX design, and robust security, helping users solve day-to-day digital requirements efficiently.</p>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2026 Bytecode Creations. All rights reserved.</p>
+        <p>Contact: <a href="mailto:bytecode.creation@gmail.com">bytecode.creation@gmail.com</a></p>
+        <div class="footer-links">
+            <a href="privacy/ai-voice-generator.html">AI Voice Policy</a>
+            <a href="privacy/wifi-server-pro.html">WiFi Server Policy</a>
+            <a href="privacy/instant-sticky.html">Sticky Notes Policy</a>
+            <a href="privacy/wifi-http-server.html">WiFi HTTP Policy</a>
+            <a href="privacy/qr-barcode-scanner.html">QR Scanner Policy</a>
+            <a href="privacy/bhagavad-gita.html">Bhagavad Gita Policy</a>
+        </div>
+    </footer>
 </body>
 </html>
